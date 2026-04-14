@@ -2,7 +2,6 @@ import { NUMBERS } from '../data/numbers'
 
 export default function PromptBubble({ targetValue, foundCount, total, onReplay }) {
   const num = NUMBERS.find(n => n.value === targetValue)
-  const color = '#7c3aed'  // fixed neutral — no color hint about which tile to find
 
   return (
     <div className="absolute top-0 left-0 right-0 z-10 flex items-center justify-between px-3 py-2"
@@ -16,18 +15,18 @@ export default function PromptBubble({ targetValue, foundCount, total, onReplay 
         <span className="text-white font-black text-lg leading-none">{foundCount}/{total}</span>
       </div>
 
-      {/* Target */}
+      {/* Target — white button, no color overlap with any tile */}
       <button
         onTouchEnd={(e) => { e.preventDefault(); onReplay() }}
         onClick={onReplay}
         className="flex items-center gap-2 rounded-2xl px-4 py-2 active:scale-95 transition-transform"
-        style={{ background: color, border: '2px solid rgba(255,255,255,0.4)' }}
+        style={{ background: 'white', border: '2px solid rgba(255,255,255,0.6)' }}
         aria-label="Replay prompt"
       >
-        <span className="text-white font-bold text-lg leading-none" style={{ fontFamily: '"Noto Sans Georgian", sans-serif' }}>
+        <span className="font-bold text-lg leading-none" style={{ fontFamily: '"Noto Sans Georgian", sans-serif', color: '#1e1b4b' }}>
           {num?.georgian}
         </span>
-        <span className="text-white text-lg">🔊</span>
+        <span className="text-lg">🔊</span>
       </button>
 
       {/* Right spacer (keep layout balanced) */}
