@@ -1,5 +1,5 @@
 import { useReducer, useCallback } from 'react'
-import { NUMBERS } from '../data/numbers'
+import { NUMBERS, TILE_COLORS } from '../data/numbers'
 
 // Generates non-overlapping (x, y) percentage positions for 11 tiles.
 // Safe zones: top 18% (prompt bubble), bottom 6% (iOS home bar).
@@ -46,10 +46,12 @@ function shuffle(arr) {
 
 function buildInitialTiles() {
   const positions = generatePositions()
+  const colors = shuffle(TILE_COLORS)  // randomize colors every game
   return NUMBERS.map((num, i) => ({
     value: num.value,
     x: positions[i].x,
     y: positions[i].y,
+    color: colors[i],
     found: false,
     animState: 'idle',
   }))

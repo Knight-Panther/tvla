@@ -1,8 +1,7 @@
-import { NUMBERS, TILE_COLORS } from '../data/numbers'
+import { NUMBERS } from '../data/numbers'
 
-export default function NumberTile({ value, x, y, found, animState, onTap }) {
+export default function NumberTile({ value, x, y, color, found, animState, onTap }) {
   const num = NUMBERS.find(n => n.value === value)
-  const color = TILE_COLORS[value]
 
   const animClass = animState === 'shake' ? 'shake' : animState === 'pop' ? 'pop' : ''
 

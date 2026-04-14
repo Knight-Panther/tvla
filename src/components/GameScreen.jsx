@@ -47,6 +47,7 @@ export default function GameScreen({ state, onTap, onReplay }) {
           value={tile.value}
           x={tile.x}
           y={tile.y}
+          color={tile.color}
           found={tile.found}
           animState={tile.animState}
           onTap={onTap}

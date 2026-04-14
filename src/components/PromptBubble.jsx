@@ -1,8 +1,8 @@
-import { NUMBERS, TILE_COLORS } from '../data/numbers'
+import { NUMBERS } from '../data/numbers'
 
 export default function PromptBubble({ targetValue, foundCount, total, onReplay }) {
   const num = NUMBERS.find(n => n.value === targetValue)
-  const color = targetValue != null ? TILE_COLORS[targetValue] : '#7c3aed'
+  const color = '#7c3aed'  // fixed neutral — no color hint about which tile to find
 
   return (
     <div className="absolute top-0 left-0 right-0 z-10 flex items-center justify-between px-3 py-2"
