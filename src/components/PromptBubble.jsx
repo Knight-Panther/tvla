@@ -24,8 +24,7 @@ export default function PromptBubble({ targetValue, foundCount, total, onReplay 
         style={{ background: color, border: '2px solid rgba(255,255,255,0.4)' }}
         aria-label="Replay prompt"
       >
-        <span className="text-white font-black text-2xl leading-none">{targetValue}</span>
-        <span className="text-white font-bold text-sm leading-none" style={{ fontFamily: '"Noto Sans Georgian", sans-serif' }}>
+        <span className="text-white font-bold text-lg leading-none" style={{ fontFamily: '"Noto Sans Georgian", sans-serif' }}>
           {num?.georgian}
         </span>
         <span className="text-white text-lg">🔊</span>

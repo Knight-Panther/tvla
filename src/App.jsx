@@ -15,6 +15,9 @@ export default function App() {
   const stateRef = useRef(state)
   useEffect(() => { stateRef.current = state }, [state])
 
+  // Lock taps while correct-feedback audio plays (prevents it being cut off)
+  const feedbackLockRef = useRef(false)
+
   // Play the first prompt when the game starts
   const didPlayFirstRef = useRef(false)
   useEffect(() => {
@@ -41,15 +44,18 @@ export default function App() {
 
   function handleTap(value) {
     if (state.phase !== 'playing') return
+    if (feedbackLockRef.current) return  // ignore taps while correct-feedback plays
+
     const isCorrect = tapTile(value)
     if (isCorrect === null || isCorrect === undefined) return
 
     if (isCorrect) {
       celebrateCorrect()
-      // Wait for the feedback phrase to fully finish, then pause 500ms, then next prompt
+      feedbackLockRef.current = true
       playFeedback(true).then(() => {
         return new Promise(r => setTimeout(r, 500))
       }).then(() => {
+        feedbackLockRef.current = false
         const s = stateRef.current
         if (s.phase === 'playing' && s.targetValue !== null) {
           playPrompt(s.playerName, s.targetValue)
