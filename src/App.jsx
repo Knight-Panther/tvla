@@ -10,21 +10,22 @@ import WinnerBanner from './components/WinnerBanner'
 export default function App() {
   const { state, startGame, tapTile, restartGame } = useGame()
   const { playPrompt, playFeedback, playWinner, stopAll } = useVoice()
-  const prevTargetRef = useRef(null)
 
-  // Play prompt whenever the target changes (but NOT on initial mount)
+  // Refs so async callbacks always read the latest values without stale closures
+  const stateRef = useRef(state)
+  useEffect(() => { stateRef.current = state }, [state])
+
+  // Play the first prompt when the game starts
+  const didPlayFirstRef = useRef(false)
   useEffect(() => {
-    if (state.phase !== 'playing' || state.targetValue === null) return
-    if (state.targetValue === prevTargetRef.current) return
-
-    prevTargetRef.current = state.targetValue
-    // Slight delay so the correct-answer audio finishes first
-    const timer = setTimeout(() => {
+    if (state.phase === 'playing' && state.targetValue !== null && !didPlayFirstRef.current) {
+      didPlayFirstRef.current = true
       playPrompt(state.playerName, state.targetValue)
-    }, state.foundCount > 0 ? 1200 : 0)
-
-    return () => clearTimeout(timer)
-  }, [state.targetValue, state.phase])
+    }
+    if (state.phase !== 'playing') {
+      didPlayFirstRef.current = false
+    }
+  }, [state.phase, state.targetValue])
 
   // On winner
   useEffect(() => {
@@ -35,22 +36,27 @@ export default function App() {
   }, [state.phase])
 
   function handleStart(name) {
-    // iOS audio must be unlocked inside the user gesture — call playPrompt synchronously here.
-    // startGame sets the new state; we pass the first target manually below after dispatch.
     startGame(name)
   }
-
-  // Once game transitions to playing and we have a target, play the prompt immediately.
-  // The useEffect above handles this via prevTargetRef.
 
   function handleTap(value) {
     if (state.phase !== 'playing') return
     const isCorrect = tapTile(value)
     if (isCorrect === null || isCorrect === undefined) return
 
-    playFeedback(isCorrect)
     if (isCorrect) {
       celebrateCorrect()
+      // Wait for the feedback phrase to fully finish, then pause 500ms, then next prompt
+      playFeedback(true).then(() => {
+        return new Promise(r => setTimeout(r, 500))
+      }).then(() => {
+        const s = stateRef.current
+        if (s.phase === 'playing' && s.targetValue !== null) {
+          playPrompt(s.playerName, s.targetValue)
+        }
+      })
+    } else {
+      playFeedback(false)
     }
   }
 
@@ -62,7 +68,6 @@ export default function App() {
 
   function handleRestart() {
     stopAll()
-    prevTargetRef.current = null
     restartGame()
   }
 

@@ -67,7 +67,7 @@ export function useVoice() {
   function playFeedback(isCorrect) {
     const pool = isCorrect ? PHRASES.correct : PHRASES.wrong
     const pick = pool[Math.floor(Math.random() * pool.length)]
-    playFile(pick).catch(() => {
+    return playFile(pick).catch(() => {
       speakFallback(isCorrect ? 'ყოჩაღ!' : 'კიდევ სცადე!')
     })
   }
