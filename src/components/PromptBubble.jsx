@@ -1,0 +1,38 @@
+import { NUMBERS, TILE_COLORS } from '../data/numbers'
+
+export default function PromptBubble({ targetValue, foundCount, total, onReplay }) {
+  const num = NUMBERS.find(n => n.value === targetValue)
+  const color = targetValue != null ? TILE_COLORS[targetValue] : '#7c3aed'
+
+  return (
+    <div className="absolute top-0 left-0 right-0 z-10 flex items-center justify-between px-3 py-2"
+      style={{ background: 'rgba(0,0,0,0.55)', backdropFilter: 'blur(6px)' }}>
+
+      {/* Score */}
+      <div className="flex flex-col items-center min-w-[44px]">
+        <span className="text-white text-xs font-bold leading-none" style={{ fontFamily: '"Noto Sans Georgian", sans-serif' }}>
+          ნაპოვნი
+        </span>
+        <span className="text-white font-black text-lg leading-none">{foundCount}/{total}</span>
+      </div>
+
+      {/* Target */}
+      <button
+        onTouchEnd={(e) => { e.preventDefault(); onReplay() }}
+        onClick={onReplay}
+        className="flex items-center gap-2 rounded-2xl px-4 py-2 active:scale-95 transition-transform"
+        style={{ background: color, border: '2px solid rgba(255,255,255,0.4)' }}
+        aria-label="Replay prompt"
+      >
+        <span className="text-white font-black text-2xl leading-none">{targetValue}</span>
+        <span className="text-white font-bold text-sm leading-none" style={{ fontFamily: '"Noto Sans Georgian", sans-serif' }}>
+          {num?.georgian}
+        </span>
+        <span className="text-white text-lg">🔊</span>
+      </button>
+
+      {/* Right spacer (keep layout balanced) */}
+      <div className="min-w-[44px]" />
+    </div>
+  )
+}
