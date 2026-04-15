@@ -6,6 +6,7 @@ import { celebrateCorrect, celebrateWin } from './utils/confetti'
 import WelcomeScreen from './components/WelcomeScreen'
 import GameScreen from './components/GameScreen'
 import WinnerBanner from './components/WinnerBanner'
+import InstallPrompt from './components/InstallPrompt'
 
 export default function App() {
   const { state, startGame, tapTile, restartGame } = useGame()
@@ -78,7 +79,12 @@ export default function App() {
   }
 
   if (state.phase === 'welcome') {
-    return <WelcomeScreen onStart={handleStart} />
+    return (
+      <>
+        <WelcomeScreen onStart={handleStart} />
+        <InstallPrompt />
+      </>
+    )
   }
 
   if (state.phase === 'winner') {
