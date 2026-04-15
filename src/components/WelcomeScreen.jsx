@@ -43,7 +43,7 @@ export default function WelcomeScreen({ onStart }) {
 
         <h1 className="text-white font-black text-4xl text-center leading-tight"
           style={{ fontFamily: '"Noto Sans Georgian", sans-serif' }}>
-          ციფრები
+          რიცხვები
         </h1>
 
         <p className="text-purple-200 text-center text-sm font-bold"
@@ -82,11 +82,11 @@ export default function WelcomeScreen({ onStart }) {
       </div>
 
       {/* Number row at the bottom as decoration */}
-      <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2 z-10">
-        {[0,1,2,3,4,5,6,7,8,9,10].map(v => (
-          <div key={v} className="flex items-center justify-center rounded-xl opacity-60"
-            style={{ width: 26, height: 26, backgroundColor: TILE_COLORS[v] }}>
-            <span className="text-white font-black text-xs">{v}</span>
+      <div className="absolute bottom-4 left-0 right-0 flex flex-wrap justify-center gap-1 z-10 px-2">
+        {Array.from({ length: 21 }, (_, v) => (
+          <div key={v} className="flex items-center justify-center rounded-lg opacity-60"
+            style={{ width: 22, height: 22, backgroundColor: TILE_COLORS[v] }}>
+            <span className="text-white font-black" style={{ fontSize: 9 }}>{v}</span>
           </div>
         ))}
       </div>

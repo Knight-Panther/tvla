@@ -47,7 +47,7 @@ export default function WinnerBanner({ playerName, onRestart }) {
           className="text-yellow-300 font-bold text-xl"
           style={{ fontFamily: '"Noto Sans Georgian", sans-serif' }}
         >
-          ყველა ციფრი იპოვე! 🎉
+          ყველა რიცხვი იპოვე! 🎉
         </p>
         <p
           className="text-purple-200 font-bold text-base mt-1"

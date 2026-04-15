@@ -1,13 +1,13 @@
 import { useReducer, useCallback } from 'react'
 import { NUMBERS, TILE_COLORS } from '../data/numbers'
 
-// Generates non-overlapping (x, y) percentage positions for 11 tiles.
+// Generates non-overlapping (x, y) percentage positions for 21 tiles.
 // Safe zones: top 18% (prompt bubble), bottom 6% (iOS home bar).
 // Tiles are centered at (x%, y%) so keep x in [8, 92], y in [20, 92].
 function generatePositions() {
   const positions = []
-  const MIN_DIST = 18   // percent
-  const MIN_DIST_RELAXED = 12
+  const MIN_DIST = 14   // percent (reduced from 18 to fit 21 tiles)
+  const MIN_DIST_RELAXED = 9
 
   const rand = (min, max) => Math.random() * (max - min) + min
 
